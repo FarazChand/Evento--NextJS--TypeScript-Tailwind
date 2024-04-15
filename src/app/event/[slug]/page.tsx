@@ -2,17 +2,11 @@ import { Metadata } from "next";
 import Image from "next/image";
 
 import H1 from "@/components/h1";
-import { EventoEvent } from "@/lib/type";
-import { capitalize } from "@/lib/utils";
+import { getEvent } from "@/lib/utils";
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const slug = params.slug;
-
-  const response = await fetch(
-    `https://bytegrad.com/course-assets/projects/evento/api/events/${slug}`
-  );
-
-  const event: EventoEvent = await response.json();
+  const event = await getEvent(slug);
 
   return {
     title: event.name,
@@ -27,12 +21,7 @@ type Props = {
 
 export default async function EventPage({ params }: Props) {
   const slug = params.slug;
-
-  const response = await fetch(
-    `https://bytegrad.com/course-assets/projects/evento/api/events/${slug}`
-  );
-
-  const event: EventoEvent = await response.json();
+  const event = await getEvent(slug);
 
   return (
     <main>
